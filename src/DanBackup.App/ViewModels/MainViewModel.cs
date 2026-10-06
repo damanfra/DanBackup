@@ -21,6 +21,8 @@ public sealed partial class MainViewModel : ObservableObject
         Restore = new RestoreViewModel(settings, IsAdmin);
         Settings = new SettingsViewModel(settings);
 
+        Settings.Saved += Backup.InvalidateAnalysis;
+
         // Ao fim do backup, o usuário pode ir direto para a verificação.
         Backup.VerifyRequested += folder =>
         {

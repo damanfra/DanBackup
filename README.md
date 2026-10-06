@@ -15,7 +15,7 @@ Você escolhe o que salvar; a restauração é sempre manual e item a item.
 | Redes Wi-Fi | Perfis com senha (`netsh wlan export`) | Sim |
 | Programas instalados | Lista CSV/JSON + `winget export`. Reinstalação só dos pacotes marcados | |
 | Drivers | `pnputil /export-driver` | Sim |
-| Impressoras | `PrintBrm` | Sim |
+| Impressoras | Cada impressora (driver, porta/IP, compartilhamento, padrão); recria a fila e a porta TCP/IP | Restaurar |
 | Fontes | Fontes que não vieram com o Windows | |
 | Certificados | Repositório Pessoal (.pfx protegido com a senha do backup) | |
 | Variáveis de ambiente | Usuário e sistema; restauração só acrescenta, nunca sobrescreve | Restaurar sistema |
@@ -67,6 +67,9 @@ dotnet run --project src/DanBackup.App
 ./publish.ps1        # gera publish/DanBackup.exe (arquivo único)
 ```
 
+**Releases:** criar e enviar uma tag (`git tag v0.3.0 && git push origin v0.3.0`) dispara o workflow
+`.github/workflows/release.yml`, que roda os testes, gera o `DanBackup.exe` e publica uma Release no GitHub.
+
 - `src/DanBackup.Core` — engine, módulos (`Modules/`), catálogos (`Catalogs/*.json`, embutidos)
 - `src/DanBackup.App` — interface WPF (MVVM, CommunityToolkit.Mvvm)
 - `tests/DanBackup.Tests` — testes (inclui um backup real de módulos leves para uma pasta temporária)
@@ -75,6 +78,7 @@ Para adicionar um módulo: implemente `BackupModuleBase` e registre em `ModuleRe
 
 ## Próximos passos
 
+- [x] Releases automáticas pelo GitHub Actions
 - [ ] Destino Google Drive nativo (API + OAuth). Hoje já funciona apontando para a pasta do *Google Drive para computador*.
 - [ ] Ampliar o catálogo de jogos
 - [ ] Compactação opcional (.zip) do backup

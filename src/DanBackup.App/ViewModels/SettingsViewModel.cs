@@ -61,12 +61,13 @@ public sealed partial class SettingsViewModel : ObservableObject
         if (folder is null) return;
         var tokenized = PathTokens.Tokenize(folder);
         if (!CustomFolders.Contains(tokenized, StringComparer.OrdinalIgnoreCase)) CustomFolders.Add(tokenized);
+        Save();
     }
 
     [RelayCommand]
     private void RemoveFolder()
     {
-        if (SelectedFolder is not null) CustomFolders.Remove(SelectedFolder);
+        if (SelectedFolder is not null && CustomFolders.Remove(SelectedFolder)) Save();
     }
 
     [RelayCommand]
@@ -83,12 +84,13 @@ public sealed partial class SettingsViewModel : ObservableObject
             Dialogs.Warning("Essa chave não existe neste computador agora; ela será ignorada até existir.");
         if (!CustomRegistryKeys.Contains(key, StringComparer.OrdinalIgnoreCase)) CustomRegistryKeys.Add(key);
         NewRegistryKey = "";
+        Save();
     }
 
     [RelayCommand]
     private void RemoveRegistryKey()
     {
-        if (SelectedRegistryKey is not null) CustomRegistryKeys.Remove(SelectedRegistryKey);
+        if (SelectedRegistryKey is not null && CustomRegistryKeys.Remove(SelectedRegistryKey)) Save();
     }
 
     [RelayCommand]
@@ -104,12 +106,13 @@ public sealed partial class SettingsViewModel : ObservableObject
         if (folder is null) return;
         CustomGames.Add(new CustomGame { Name = name, Path = PathTokens.Tokenize(folder) });
         NewGameName = "";
+        Save();
     }
 
     [RelayCommand]
     private void RemoveGame()
     {
-        if (SelectedGame is not null) CustomGames.Remove(SelectedGame);
+        if (SelectedGame is not null && CustomGames.Remove(SelectedGame)) Save();
     }
 
     [RelayCommand]
@@ -137,5 +140,9 @@ public sealed partial class SettingsViewModel : ObservableObject
         SettingsStore.Save(_settings);
         LoadFrom(_settings);
         SavedMessage = $"Salvo às {DateTime.Now:HH:mm:ss}. Clique em \"Analisar\" na aba Backup para aplicar.";
+        Saved?.Invoke();
     }
+
+    /// <summary>Disparado após salvar — a análise da aba Backup fica desatualizada.</summary>
+    public event Action? Saved;
 }

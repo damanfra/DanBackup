@@ -147,6 +147,18 @@ public sealed partial class BackupViewModel : OperationViewModelBase
         }
     }
 
+    /// <summary>
+    /// As configurações mudaram (pastas extras, jogos, extensões...): a seleção atual não reflete mais o que
+    /// seria salvo, então é descartada para obrigar uma nova análise.
+    /// </summary>
+    public void InvalidateAnalysis()
+    {
+        if (IsBusy || Modules.Count == 0) return;
+        Modules.Clear();
+        UpdateSelectionSummary();
+        StatusText = "As configurações mudaram: clique em \"Analisar este computador\" de novo.";
+    }
+
     /// <summary>Disparado quando o usuário pede para verificar o backup recém-criado.</summary>
     public event Action<string>? VerifyRequested;
 
