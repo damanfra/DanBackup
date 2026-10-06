@@ -1,0 +1,82 @@
+<UserControl x:Class="DanBackup.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel Margin="12">
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+            <Button DockPanel.Dock="Right" Content="Salvar configurações" MinWidth="160" Command="{Binding SaveCommand}" Style="{DynamicResource AccentButtonStyle}" />
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{Binding SavedMessage}" />
+                <TextBlock Style="{StaticResource SecondaryText}" Text="{Binding SettingsPath, StringFormat=Arquivo: {0}}" />
+            </StackPanel>
+        </DockPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel MaxWidth="900" HorizontalAlignment="Left">
+
+                <!-- Pastas extras -->
+                <TextBlock Text="Pastas extras" Style="{StaticResource SectionTitle}" />
+                <TextBlock Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,0,0,6"
+                           Text="Pastas além de Documentos/Desktop/etc. que devem entrar no backup (aparecem em &quot;Pastas do usuário&quot;)." />
+                <DockPanel Margin="0,0,0,18">
+                    <StackPanel DockPanel.Dock="Right" Margin="8,0,0,0">
+                        <Button Content="Adicionar..." Command="{Binding AddFolderCommand}" HorizontalAlignment="Stretch" />
+                        <Button Content="Remover" Margin="0,6,0,0" Command="{Binding RemoveFolderCommand}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding CustomFolders}" SelectedItem="{Binding SelectedFolder}" Height="110" />
+                </DockPanel>
+
+                <!-- Jogos -->
+                <TextBlock Text="Jogos" Style="{StaticResource SectionTitle}" />
+                <TextBlock Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,0,0,6"
+                           Text="Jogos encontrados automaticamente: catálogo interno, Documentos\My Games, Saved Games, jogos Unreal e Unity e Steam. Adicione aqui os que não aparecerem." />
+                <DockPanel Margin="0,0,0,6">
+                    <Button DockPanel.Dock="Right" Content="Escolher pasta e adicionar..." Margin="8,0,0,0" Command="{Binding AddGameCommand}" />
+                    <TextBlock Text="Nome do jogo:" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBox Text="{Binding NewGameName, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel Margin="0,0,0,10">
+                    <Button DockPanel.Dock="Right" Content="Remover" Margin="8,0,0,0" VerticalAlignment="Top" Command="{Binding RemoveGameCommand}" />
+                    <ListBox ItemsSource="{Binding CustomGames}" SelectedItem="{Binding SelectedGame}" Height="100">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Path}" Style="{StaticResource SecondaryText}" Margin="10,0,0,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <TextBlock Text="Extensões consideradas arquivo de configuração:" Margin="0,0,0,4" />
+                <DockPanel Margin="0,0,0,8">
+                    <Button DockPanel.Dock="Right" Content="Padrão" Margin="8,0,0,0" Command="{Binding ResetExtensionsCommand}" />
+                    <TextBox Text="{Binding GameExtensionsText, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                    <TextBlock Text="Tamanho máximo por arquivo (MB):" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBox Text="{Binding GameMaxFileSizeMB, UpdateSourceTrigger=PropertyChanged}" Width="80" />
+                </StackPanel>
+                <CheckBox Content="Copiar as pastas dos jogos inteiras (inclui saves; ignora extensões e tamanho)" IsChecked="{Binding GameIncludeAllFiles}" Margin="0,0,0,18" />
+
+                <!-- Registro -->
+                <TextBlock Text="Chaves do registro" Style="{StaticResource SectionTitle}" />
+                <TextBlock Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,0,0,6"
+                           Text="Exportadas como .reg. Exemplo: HKCU\Software\MeuPrograma" />
+                <DockPanel Margin="0,0,0,6">
+                    <Button DockPanel.Dock="Right" Content="Adicionar" Margin="8,0,0,0" Command="{Binding AddRegistryKeyCommand}" />
+                    <TextBox Text="{Binding NewRegistryKey, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel Margin="0,0,0,18">
+                    <Button DockPanel.Dock="Right" Content="Remover" Margin="8,0,0,0" VerticalAlignment="Top" Command="{Binding RemoveRegistryKeyCommand}" />
+                    <ListBox ItemsSource="{Binding CustomRegistryKeys}" SelectedItem="{Binding SelectedRegistryKey}" Height="90" />
+                </DockPanel>
+
+                <!-- Geral -->
+                <TextBlock Text="Geral" Style="{StaticResource SectionTitle}" />
+                <CheckBox Content="Ignorar arquivos que estão só na nuvem (OneDrive sob demanda)" IsChecked="{Binding SkipCloudOnlyFiles}" Margin="0,0,0,8" />
+                <TextBlock Text="Pastas nunca copiadas (separadas por ;):" Margin="0,0,0,4" />
+                <TextBox Text="{Binding ExcludedFoldersText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

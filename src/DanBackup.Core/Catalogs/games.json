@@ -1,0 +1,29 @@
+// Jogos conhecidos e onde guardam configurações (teclas, gráficos, áudio).
+// Pastas são copiadas só com as extensões de configuração definidas nas Configurações;
+// arquivos citados explicitamente sempre são copiados.
+// Tokens extras: %STEAM% (pasta do Steam), %STEAMAPP:<appid>% (pasta de instalação do jogo no Steam), %SAVEDGAMES%.
+// Muitos outros jogos são encontrados automaticamente (My Games, Saved Games, Unreal, Unity, Steam userdata).
+[
+  { "id": "cs2", "name": "Counter-Strike 2", "paths": [ "%STEAM%\\userdata\\*\\730\\local\\cfg", "%STEAMAPP:730%\\game\\csgo\\cfg\\autoexec.cfg" ] },
+  { "id": "dota2", "name": "Dota 2", "paths": [ "%STEAM%\\userdata\\*\\570\\remote\\cfg", "%STEAMAPP:570%\\game\\dota\\cfg\\autoexec.cfg" ] },
+  { "id": "valorant", "name": "VALORANT", "paths": [ "%LOCALAPPDATA%\\VALORANT\\Saved\\Config" ] },
+  { "id": "lol", "name": "League of Legends", "paths": [ "C:\\Riot Games\\League of Legends\\Config\\*.cfg", "C:\\Riot Games\\League of Legends\\Config\\*.ini", "C:\\Riot Games\\League of Legends\\Config\\PersistedSettings.json" ] },
+  { "id": "minecraft", "name": "Minecraft (Java)", "paths": [ "%APPDATA%\\.minecraft\\options.txt", "%APPDATA%\\.minecraft\\optionsof.txt", "%APPDATA%\\.minecraft\\servers.dat", "%APPDATA%\\.minecraft\\config" ] },
+  { "id": "gta5", "name": "Grand Theft Auto V", "paths": [ "%DOCUMENTS%\\Rockstar Games\\GTA V\\settings.xml", "%DOCUMENTS%\\Rockstar Games\\GTA V\\Profiles" ] },
+  { "id": "rdr2", "name": "Red Dead Redemption 2", "paths": [ "%DOCUMENTS%\\Rockstar Games\\Red Dead Redemption 2\\Settings" ] },
+  { "id": "cyberpunk", "name": "Cyberpunk 2077", "paths": [ "%LOCALAPPDATA%\\CD Projekt Red\\Cyberpunk 2077\\UserSettings.json" ] },
+  { "id": "witcher3", "name": "The Witcher 3", "paths": [ "%DOCUMENTS%\\The Witcher 3\\*.settings" ] },
+  { "id": "fortnite", "name": "Fortnite", "paths": [ "%LOCALAPPDATA%\\FortniteGame\\Saved\\Config\\WindowsClient" ] },
+  { "id": "apex", "name": "Apex Legends", "paths": [ "%SAVEDGAMES%\\Respawn\\Apex\\local", "%SAVEDGAMES%\\Respawn\\Apex\\profile" ] },
+  { "id": "eldenring", "name": "Elden Ring", "paths": [ "%APPDATA%\\EldenRing\\GraphicsConfig.xml" ] },
+  { "id": "overwatch", "name": "Overwatch 2", "paths": [ "%DOCUMENTS%\\Overwatch\\Settings" ] },
+  { "id": "cod", "name": "Call of Duty", "paths": [ "%DOCUMENTS%\\Call of Duty\\players" ] },
+  { "id": "battlefield", "name": "Battlefield", "paths": [ "%DOCUMENTS%\\Battlefield*\\settings" ] },
+  { "id": "wow", "name": "World of Warcraft (WTF: teclas, macros, addons)", "paths": [ "%PROGRAMFILESX86%\\World of Warcraft\\_retail_\\WTF", "%PROGRAMFILESX86%\\World of Warcraft\\_classic_\\WTF", "%PROGRAMFILESX86%\\World of Warcraft\\_classic_era_\\WTF" ] },
+  { "id": "ets2", "name": "Euro Truck Simulator 2", "paths": [ "%DOCUMENTS%\\Euro Truck Simulator 2\\config.cfg", "%DOCUMENTS%\\Euro Truck Simulator 2\\profiles\\*\\controls.sii", "%DOCUMENTS%\\Euro Truck Simulator 2\\profiles\\*\\config_local.cfg" ] },
+  { "id": "ats", "name": "American Truck Simulator", "paths": [ "%DOCUMENTS%\\American Truck Simulator\\config.cfg", "%DOCUMENTS%\\American Truck Simulator\\profiles\\*\\controls.sii", "%DOCUMENTS%\\American Truck Simulator\\profiles\\*\\config_local.cfg" ] },
+  { "id": "assettocorsa", "name": "Assetto Corsa", "paths": [ "%DOCUMENTS%\\Assetto Corsa\\cfg" ] },
+  { "id": "retroarch", "name": "RetroArch", "paths": [ "%APPDATA%\\RetroArch\\retroarch.cfg", "%APPDATA%\\RetroArch\\config" ] },
+  { "id": "pcsx2", "name": "PCSX2", "paths": [ "%DOCUMENTS%\\PCSX2\\inis" ] },
+  { "id": "dolphin", "name": "Dolphin Emulator", "paths": [ "%DOCUMENTS%\\Dolphin Emulator\\Config" ] }
+]

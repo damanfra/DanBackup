@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DanBackup.App/DanBackup.App.csproj" />
+    <Project Path="src/DanBackup.Core/DanBackup.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DanBackup.Tests/DanBackup.Tests.csproj" />
+  </Folder>
+</Solution>

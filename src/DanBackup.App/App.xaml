@@ -1,0 +1,62 @@
+<Application x:Class="DanBackup.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DanBackup.App"
+             xmlns:vm="clr-namespace:DanBackup.App.ViewModels"
+             ThemeMode="System"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <local:StatusToGlyphConverter x:Key="StatusToGlyph" />
+        <local:StatusToBrushConverter x:Key="StatusToBrush" />
+
+        <Style x:Key="SecondaryText" TargetType="TextBlock">
+            <Setter Property="Opacity" Value="0.7" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <!-- Árvore de módulos/itens (usada no Backup e no Restaurar) -->
+        <HierarchicalDataTemplate DataType="{x:Type vm:ModuleNode}" ItemsSource="{Binding Items}">
+            <StackPanel Margin="0,6,0,4">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding IsAvailable}" VerticalAlignment="Center" MinWidth="0" />
+                    <TextBlock Text="{Binding Module.Name}" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center" Margin="2,0,6,0" />
+                    <TextBlock Text="{Binding CountText}" Style="{StaticResource SecondaryText}" VerticalAlignment="Center" />
+                    <Border Background="#40E08A00" CornerRadius="4" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center"
+                            Visibility="{Binding NeedsAdmin, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="requer administrador" FontSize="11" />
+                    </Border>
+                </StackPanel>
+                <TextBlock Text="{Binding Module.Description}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap" MaxWidth="760" Margin="32,0,0,0" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding Module.Notes}" Style="{StaticResource SecondaryText}" FontStyle="Italic" TextWrapping="Wrap" MaxWidth="760" Margin="32,2,0,0" HorizontalAlignment="Left"
+                           Visibility="{Binding HasNotes, Converter={StaticResource BoolToVisibility}}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:ItemNode}">
+            <StackPanel Orientation="Horizontal" Margin="0,1" ToolTip="{Binding Message}" ToolTipService.ShowOnDisabled="True">
+                <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding Parent.IsAvailable}" VerticalAlignment="Center" MinWidth="0" />
+                <TextBlock Text="{Binding Status, Converter={StaticResource StatusToGlyph}}" Foreground="{Binding Status, Converter={StaticResource StatusToBrush}}"
+                           FontFamily="Segoe MDL2 Assets" Width="20" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Item.DisplayName}" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Item.Description}" Style="{StaticResource SecondaryText}" Margin="12,0,0,0" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis" MaxWidth="560" ToolTip="{Binding Item.Description}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="ModuleTreeItem" TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        </Style>
+
+        <DataTemplate x:Key="LogLineTemplate" DataType="{x:Type vm:LogLine}">
+            <TextBlock Text="{Binding Text}" Foreground="{Binding Level, Converter={StaticResource StatusToBrush}}"
+                       FontFamily="Cascadia Mono, Consolas" FontSize="12" TextWrapping="Wrap" />
+        </DataTemplate>
+    </Application.Resources>
+</Application>
