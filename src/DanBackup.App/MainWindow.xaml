@@ -6,6 +6,21 @@
         Width="1150" Height="800" MinWidth="820" MinHeight="560"
         WindowStartupLocation="CenterScreen">
     <DockPanel>
+        <!-- Atualização disponível -->
+        <Border DockPanel.Dock="Top" Background="#302B7CD3" Padding="16,8"
+                Visibility="{Binding ShowUpdateBanner, Converter={StaticResource BoolToVisibility}}">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="Depois" Margin="8,0,0,0" Command="{Binding DismissUpdateCommand}"
+                        IsEnabled="{Binding CanInstallUpdate}" />
+                <Button DockPanel.Dock="Right" Content="Atualizar agora" Command="{Binding InstallUpdateCommand}"
+                        IsEnabled="{Binding CanInstallUpdate}" />
+                <ProgressBar DockPanel.Dock="Right" Width="120" Height="8" Margin="0,0,12,0" Maximum="100"
+                             Value="{Binding UpdateProgress}"
+                             Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibility}}" />
+                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,12,0" Text="{Binding UpdateText}" />
+            </DockPanel>
+        </Border>
+
         <!-- Aviso de administrador -->
         <Border DockPanel.Dock="Top" Background="#30E08A00" Padding="16,8"
                 Visibility="{Binding ShowAdminBanner, Converter={StaticResource BoolToVisibility}}">

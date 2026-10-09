@@ -1,14 +1,24 @@
-# Gera o DanBackup.exe e publica uma Release a cada tag de versão (ex.: git tag v0.2.0 && git push origin v0.2.0).
+# A cada push na main: roda os testes, gera o DanBackup.exe e publica uma Release nova (v<MAJOR_MINOR>.<nº da execução>).
+# O app instalado se atualiza sozinho a partir da última Release (ver src/DanBackup.Core/Update).
+# Para uma versão maior (ex.: 0.4 ou 1.0), mude MAJOR_MINOR abaixo (e <Version> no DanBackup.App.csproj).
 # Também pode ser disparado manualmente em Actions → Release → Run workflow (só gera o artefato, sem Release).
 name: Release
 
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
+    paths-ignore: ["**.md", ".gitignore"]
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  MAJOR_MINOR: "0.3"
 
 jobs:
   build:
@@ -24,7 +34,7 @@ jobs:
         id: version
         shell: pwsh
         run: |
-          $v = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}".TrimStart("v") } else { "0.0.0-dev" }
+          $v = if ("${{ github.ref_name }}" -eq "main") { "${{ env.MAJOR_MINOR }}.${{ github.run_number }}" } else { "0.0.0-dev" }
           "value=$v" >> $env:GITHUB_OUTPUT
 
       - name: Testes
@@ -36,14 +46,26 @@ jobs:
           -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true
           -p:Version=${{ steps.version.outputs.value }} -o publish
 
+      - name: Checksum SHA-256
+        shell: pwsh
+        run: |
+          $hash = (Get-FileHash publish/DanBackup.exe -Algorithm SHA256).Hash
+          "$hash  DanBackup.exe" | Set-Content publish/DanBackup.exe.sha256 -Encoding ascii
+
       - uses: actions/upload-artifact@v4
         with:
           name: DanBackup-${{ steps.version.outputs.value }}
           path: publish/DanBackup.exe
 
       - name: Criar Release
-        if: github.ref_type == 'tag'
+        if: github.ref_name == 'main'
         uses: softprops/action-gh-release@v2
         with:
-          files: publish/DanBackup.exe
+          tag_name: v${{ steps.version.outputs.value }}
+          target_commitish: ${{ github.sha }}
+          name: DanBackup ${{ steps.version.outputs.value }}
+          files: |
+            publish/DanBackup.exe
+            publish/DanBackup.exe.sha256
           generate_release_notes: true
+          make_latest: true

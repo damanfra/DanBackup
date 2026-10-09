@@ -82,3 +82,10 @@ Para adicionar um módulo: implemente `BackupModuleBase` e registre em `ModuleRe
 - [ ] Destino Google Drive nativo (API + OAuth). Hoje já funciona apontando para a pasta do *Google Drive para computador*.
 - [ ] Ampliar o catálogo de jogos
 - [ ] Compactação opcional (.zip) do backup
+
+## Atualização automática
+
+A cada push na `main`, a Action **Release** roda os testes e publica uma Release nova (`v0.3.<nº da execução>`) com o
+`DanBackup.exe` e o `DanBackup.exe.sha256`. Ao abrir, o app consulta a última Release; se houver versão mais nova, mostra
+um aviso no topo com **Atualizar agora**: baixa o executável, confere o SHA-256, substitui o `.exe` atual e reabre.
+Sem internet ou rodando via `dotnet run`, a verificação é simplesmente ignorada.
