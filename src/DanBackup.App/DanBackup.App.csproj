@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>DanBackup</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
     <Version>0.3.0</Version>
     <!-- WPF0001: ThemeMode (tema Fluent) ainda é marcado como experimental. -->
     <NoWarn>$(NoWarn);WPF0001</NoWarn>
@@ -15,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DanBackup.Core\DanBackup.Core.csproj" />
+    <Resource Include="Assets\icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
